@@ -2,8 +2,39 @@
 
 import re
 
-STOPWORDS = {"a", "an", "the", "is", "are", "can", "to", "for", "of", "on", "in", "and", "or", "what", "how", "much",
-             "does", "do", "he", "she", "we", "our", "it", "be", "may", "if", "there", "where", "after", "with", "by"}
+STOPWORDS = {
+    "a",
+    "an",
+    "the",
+    "is",
+    "are",
+    "can",
+    "to",
+    "for",
+    "of",
+    "on",
+    "in",
+    "and",
+    "or",
+    "what",
+    "how",
+    "much",
+    "does",
+    "do",
+    "he",
+    "she",
+    "we",
+    "our",
+    "it",
+    "be",
+    "may",
+    "if",
+    "there",
+    "where",
+    "after",
+    "with",
+    "by",
+}
 
 
 def words(text):
@@ -19,13 +50,15 @@ def by_title(question, passages, k):
 def by_title_and_text(question, passages, k):
     """Ranks passages by the words they share with the question, looking at the title and the text."""
     q = set(words(question))
-    return sorted(passages, key=lambda p: -len(q & set(words(p["title"] + " " + p["text"]))))[:k]
+    return sorted(
+        passages, key=lambda p: -len(q & set(words(p["title"] + " " + p["text"])))
+    )[:k]
 
 
 RETRIEVERS = {"by_title": by_title, "by_title_and_text": by_title_and_text}
 
 # Task 3: after measuring both retrievers with recall_at_k, set this to the better one.
-CHOSEN_RETRIEVER = "by_title"
+CHOSEN_RETRIEVER = "by_title_and_text"
 
 
 def recall_at_k(ranked_ids, relevant_ids, k):
