@@ -35,4 +35,11 @@ def recall_at_k(ranked_ids, relevant_ids, k):
     relevant_ids: the right passage id for each question, e.g. ["FR-01", "FR-02"]
     Returns a number from 0.0 to 1.0. In the example, recall_at_k(..., k=2) is 0.5.
     """
-    raise NotImplementedError("Task 3")
+    if not relevant_ids:
+        return 0.0
+
+    hits = sum(
+        relevant_id in ranked[:k]
+        for ranked, relevant_id in zip(ranked_ids, relevant_ids)
+    )
+    return hits / len(relevant_ids)
